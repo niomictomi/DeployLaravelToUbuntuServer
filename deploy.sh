@@ -53,6 +53,12 @@ echo "----------------------------------------------------------------"
 
 
 echo "Setting up MySQL database and user for Laravel..."
+sudo apt upgrade
+sudo apt install mysql-server -y
+
+echo "Securing MySQL Installation..."
+sudo mysql_secure_installation
+
 # Ganti 'database_name', 'database_user', dan 'user_password' dengan detail yang sesuai
 sudo mysql -e "CREATE DATABASE vvip;"
 sudo mysql -e "CREATE USER 'vvip'@'localhost' IDENTIFIED BY '53m0944m@n5!h123';"
