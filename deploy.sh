@@ -104,18 +104,15 @@ cd /home/vvip/dev
 echo "Pulling latest code from GitHub..."
 
 # Ganti /home/vvip/dev sesuai dengan path yang diinginkan
+
 PROJECT_DIR="/home/vvip/dev"
-
-# Cek apakah direktori proyek sudah ada
-if [ -d "$PROJECT_DIR" ]; then
-    echo "Directory $PROJECT_DIR already exists. Removing it..."
-    rm -rf "$PROJECT_DIR"  # Hapus direktori yang ada
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Cloning repository from GitHub..."
+    git clone https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git -b dev $PROJECT_DIR
+else
+    echo "Directory $PROJECT_DIR already exists. Please remove it before re-cloning."
+    exit 1
 fi
-
-# Kloning repository dari GitHub
-echo "Cloning repository from GitHub..."
-git clone https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git -b dev $PROJECT_DIR
-
 
 echo "Navigating to project directory..."
 cd $PROJECT_DIR
