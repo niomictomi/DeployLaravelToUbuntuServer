@@ -24,15 +24,23 @@ echo "PHP Installed successfully"
 echo "----------------------------------------------------------------"
 
 echo "Installing Composer..."
+sudo apt update
+sudo apt install php-cli unzip
 
 echo "Downloading Composer installer..."
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+cd ~
+curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+
+HASH=`curl -sS https://composer.github.io/installer.sig`
+echo $HASH
+
+
+php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+
 
 echo "Installing Composer globally..."
-php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-echo "Removing Composer installer script..."
-rm composer-setup.php
 
 echo "Verifying Composer installation..."
 composer -V
