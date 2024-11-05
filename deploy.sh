@@ -102,7 +102,20 @@ echo "Navigating to project directory..."
 cd /home/vvip/dev
 
 echo "Pulling latest code from GitHub..."
-git pull https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git dev
+
+# Ganti /home/vvip/dev sesuai dengan path yang diinginkan
+PROJECT_DIR="/home/vvip/dev"
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Cloning repository from GitHub..."
+    git clone https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git -b dev $PROJECT_DIR
+else
+    echo "Directory $PROJECT_DIR already exists. Please remove it before re-cloning."
+    exit 1
+fi
+
+echo "Navigating to project directory..."
+cd $PROJECT_DIR
+
 
 echo "Installing PHP dependencies with Composer..."
 composer install --no-dev --optimize-autoloader
