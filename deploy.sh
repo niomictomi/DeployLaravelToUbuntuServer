@@ -12,11 +12,11 @@ echo "Installing PHP..."
 echo "Installing software-properties-common for adding PHP PPA..."
 sudo apt install software-properties-common -y
 
-echo "Adding PHP 8.2 repository..."
+echo "Adding PHP 8.3 repository..."
 sudo add-apt-repository ppa:ondrej/php -y
 
-echo "Installing PHP 8.2 and necessary extensions..."
-sudo apt install php8.2 php8.2-fpm php8.2-cli php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-mysql -y
+echo "Installing PHP 8.3 and necessary extensions..."
+sudo apt install php8.3 php8.3-fpm php8.3-cli php8.3-mbstring php8.3-xml php8.3-curl  php8.3-zip php8.3-mysql -y
 
 
 echo "PHP Installed successfully"
@@ -105,13 +105,17 @@ echo "Pulling latest code from GitHub..."
 
 # Ganti /home/vvip/dev sesuai dengan path yang diinginkan
 PROJECT_DIR="/home/vvip/dev"
-if [ ! -d "$PROJECT_DIR" ]; then
-    echo "Cloning repository from GitHub..."
-    git clone https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git -b dev $PROJECT_DIR
-else
-    echo "Directory $PROJECT_DIR already exists. Please remove it before re-cloning."
-    exit 1
+
+# Cek apakah direktori proyek sudah ada
+if [ -d "$PROJECT_DIR" ]; then
+    echo "Directory $PROJECT_DIR already exists. Removing it..."
+    rm -rf "$PROJECT_DIR"  # Hapus direktori yang ada
 fi
+
+# Kloning repository dari GitHub
+echo "Cloning repository from GitHub..."
+git clone https://$GITHUB_TOKEN@github.com/niomictomi/platform-vvip.git -b dev $PROJECT_DIR
+
 
 echo "Navigating to project directory..."
 cd $PROJECT_DIR
@@ -152,7 +156,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include fastcgi_params;
     }
